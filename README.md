@@ -3,6 +3,9 @@
 Actividad 4 - Programación Web
 Alumno: Emanuel Ñañez
 
+- **Aplicación publicada en Vercel:** https://pulso-abierto-react-nu.vercel.app/
+- **Repositorio en GitHub:** https://github.com/matutenanez-glitch/pulso-abierto-react
+
 ## Descripción
 
 Pulso Abierto es una aplicación web que consulta el precio actual de Bitcoin, Ethereum y Solana en dólares estadounidenses (USD). En la segunda versión (Actividad 2) la aplicación se reconstruyó con **React, Vite y TypeScript**: mantiene la API, la temática, los estados y los estilos de la Actividad 1, y agrega un formulario controlado validado con **Zod**, un filtro por nombre o símbolo, la opción de destacar monedas (en la Actividad 3 pasó a ser "favoritas"), una página de detalle por criptomoneda y una página para direcciones inexistentes (**React Router**).
@@ -16,7 +19,7 @@ Pulso Abierto es una aplicación web que consulta el precio actual de Bitcoin, E
 
 ### Actividad 4: versión final publicada
 
-En esta etapa no se agregaron funcionalidades nuevas. Se revisaron los recorridos principales, se hizo una mejora de mantenibilidad acotada (ver [Mejora de mantenibilidad](#mejora-de-mantenibilidad-actividad-4)), se comprobó el build productivo, el proyecto se subió a GitHub y se publicó en Vercel.
+En esta etapa no se agregaron funcionalidades nuevas. Se revisaron los recorridos principales, se hizo una mejora de mantenibilidad acotada (ver [Mejora de mantenibilidad](#mejora-de-mantenibilidad-actividad-4)), se comprobó el build productivo, el proyecto se subió a GitHub y se publicó en Vercel (ver [Despliegue en Vercel](#despliegue-en-vercel)).
 
 ## Tecnologías
 
@@ -95,6 +98,25 @@ npm run lint        # revisa el código con ESLint
 npm run format      # aplica el formato de Prettier
 ```
 
+## Despliegue en Vercel
+
+- **URL pública:** https://pulso-abierto-react-nu.vercel.app/
+- El proyecto de Vercel está vinculado al repositorio de GitHub `matutenanez-glitch/pulso-abierto-react`. Cada push a la rama `main` genera un despliegue de producción nuevo.
+- Configuración usada (coincide con el proyecto):
+
+  | Opción               | Valor                                       |
+  | -------------------- | ------------------------------------------- |
+  | Application Preset   | Vite                                        |
+  | Root Directory       | `./`                                        |
+  | Build Command        | `npm run build` (el script de package.json) |
+  | Output Directory     | `dist` (la carpeta que genera Vite)         |
+  | Install Command      | `npm install`                               |
+  | Variables de entorno | Ninguna (el proyecto no las usa)            |
+
+**Problema que apareció solo en la versión publicada.** Después del primer despliegue, al abrir con un enlace directo o recargar una ruta de detalle (por ejemplo `/criptomonedas/solana`) Vercel mostraba su propia página "404: NOT_FOUND". En el panel de red se veía que la solicitud del documento `GET /criptomonedas/solana` respondía con código 404. La causa: en `dist/` solo existe `index.html` y las rutas las resuelve React Router en el navegador; el servidor de desarrollo y `npm run preview` devuelven `index.html` para cualquier ruta, pero Vercel busca un archivo con esa ruta y no lo encuentra.
+
+**Corrección.** Se agregó `vercel.json` con una regla `rewrites` que envía todas las rutas a `/index.html`. Vercel sigue sirviendo primero los archivos que existen en `dist/` (JavaScript, CSS, favicon), así que la regla solo se aplica a las rutas de la aplicación. Después del cambio, `/criptomonedas/solana` responde 200 al recargar, `/criptomonedas/dogecoin` muestra el mensaje de moneda no admitida y una ruta inexistente muestra la página 404 de la aplicación.
+
 ## Rutas
 
 | Ruta                 | Página                                                                                        |
@@ -142,6 +164,7 @@ pulso-abierto-react/
 ├── capturas/                     -> capturas de pantalla
 ├── Registro_uso_IA.md            -> registros de uso de IA (Actividades 2 y 3)
 ├── vite.config.ts                -> configuración de Vite y de Vitest
+├── vercel.json                   -> reescribe las rutas a index.html en Vercel
 ├── eslint.config.js, tsconfig.json, .prettierrc
 └── package.json, package-lock.json
 ```
@@ -212,7 +235,7 @@ Se ejecutan con `npm run test`. No hacen solicitudes reales a CoinGecko: `fetch`
 
 ## Uso de inteligencia artificial
 
-Los registros de uso de IA de las Actividades 2 y 3 están en [Registro_uso_IA.md](Registro_uso_IA.md). El de la Actividad 3 también forma parte del informe técnico.
+Los registros de uso de IA de las Actividades 2 y 3 están en [Registro_uso_IA.md](Registro_uso_IA.md). El de la Actividad 3 también forma parte del informe técnico. En la Actividad 4 se usó Claude (Claude Code) como asistente para la revisión, la mejora de mantenibilidad, el despliegue y esta documentación.
 
 ## Capturas
 
@@ -222,3 +245,11 @@ En la carpeta `/capturas`:
 - `escritorio-7-detalle.jpg`, `escritorio-8-moneda-no-admitida.jpg`, `escritorio-9-pagina-404.jpg`, `escritorio-foco-teclado.jpg`
 - `movil-1-resultado-filtro.jpg`, `movil-2-detalle.jpg`
 - Actividad 3: `a3-pers-1` a `a3-pers-4` (favoritos antes y después de recargar), `a3-diag-1` a `a3-diag-3` (diagnóstico) y `a3-estado-error-reintento.jpg`
+
+## Verificación final
+
+- **Pruebas ejecutadas:** `npm run test` → 4 archivos y 20 pruebas, todas correctas. También `npm run lint` sin errores.
+- **Build generado correctamente:** `npm run build` (`tsc` + `vite build`) sin errores; genera `dist/` con `index.html`, un archivo CSS y un archivo JavaScript.
+- **Preview comprobado:** con `npm run preview` (http://localhost:4173/) la aplicación carga, la consulta trae los precios, se navega del listado al detalle y de vuelta, los favoritos se marcan y se conservan al recargar, y no hay errores en la consola.
+- **Despliegue realizado:** https://pulso-abierto-react-nu.vercel.app/ (Vercel, rama `main`). En la URL pública se comprobó: carga de la aplicación, consulta a la API de CoinGecko, navegación del listado al detalle, apertura y recarga directa de `/criptomonedas/bitcoin` (después de agregar `vercel.json`), favoritos (marcar en el listado, desmarcar en el detalle, conservar al recargar), validación y uso del formulario, y diseño adaptable a 375 px (una columna) y 1280 px (tres columnas). Sin errores en la consola.
+- **Fecha de verificación:** 23/11/2026.
