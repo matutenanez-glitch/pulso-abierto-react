@@ -1,0 +1,428 @@
+/* ===== Estilos generales (vienen de la Actividad 1) ===== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1f2933;
+  background-color: #f0f3f6;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+a {
+  color: #1d4ed8;
+}
+
+/* Foco visible para usar la pagina con teclado */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Texto que solo leen los lectores de pantalla */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== Encabezado ===== */
+
+.encabezado {
+  background-color: #1e3a5f;
+  color: #ffffff;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.encabezado h1 {
+  margin-bottom: 8px;
+  font-size: 2rem;
+}
+
+.encabezado h1 a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.encabezado h1 a:hover {
+  text-decoration: underline;
+}
+
+.encabezado p {
+  margin: 0;
+}
+
+/* Cantidad de favoritas (se ve en todas las paginas) */
+.encabezado .contador-favoritos {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 2px 12px;
+  border: 1px solid #fcd34d;
+  border-radius: 999px;
+  color: #fde68a;
+  font-weight: bold;
+}
+
+/* ===== Contenido principal ===== */
+
+.contenedor {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.seccion {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.seccion h2 {
+  font-size: 1.3rem;
+  color: #1e3a5f;
+}
+
+/* ===== Formulario ===== */
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+select,
+button {
+  font-size: 1rem;
+  min-height: 44px; /* tamaño comodo para tocar en el celular */
+  width: 100%;
+  border-radius: 6px;
+}
+
+input,
+select {
+  padding: 8px;
+  border: 2px solid #9aa5b1;
+  background-color: #ffffff;
+  color: #1f2933;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #1d4ed8;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1e40af;
+}
+
+button:disabled {
+  background-color: #9aa5b1;
+  cursor: not-allowed;
+}
+
+.ayuda {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #52606d;
+}
+
+/* Campo con error: ademas del color cambia el grosor y el estilo del borde,
+   y aparece un mensaje con icono y la palabra "Error" */
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border: 3px dashed #b91c1c;
+}
+
+.error-campo {
+  margin: 0;
+  color: #b91c1c;
+  font-weight: bold;
+}
+
+.boton-reintentar {
+  margin-top: 12px;
+  background-color: #b91c1c;
+}
+
+.boton-reintentar:hover {
+  background-color: #991b1b;
+}
+
+/* ===== Mensajes de estado ===== */
+/* Ademas del color, cada estado tiene icono, titulo y borde */
+
+.mensaje {
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 6px solid #9aa5b1;
+  background-color: #f5f7fa;
+}
+
+.mensaje p {
+  margin: 0;
+}
+
+.mensaje-carga {
+  border-left-color: #d97706;
+  background-color: #fef3c7;
+}
+
+.mensaje-resultado {
+  border-left-color: #15803d;
+  background-color: #dcfce7;
+}
+
+.mensaje-vacio {
+  border-left-color: #6b7280;
+  border-left-style: dashed;
+  background-color: #f3f4f6;
+}
+
+.mensaje-error {
+  border-left-color: #b91c1c;
+  background-color: #fee2e2;
+}
+
+/* ===== Tarjetas de resultados ===== */
+
+.resumen {
+  margin-top: 0;
+  color: #52606d;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #cbd2d9;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fafbfc;
+  overflow-wrap: break-word; /* para que los textos largos no se salgan */
+}
+
+/* La tarjeta favorita cambia el borde y ademas muestra la insignia "Favorita" */
+.tarjeta-favorita {
+  border: 3px solid #d97706;
+  background-color: #fffbeb;
+}
+
+.tarjeta h3 {
+  margin-bottom: 4px;
+  font-size: 1.2rem;
+}
+
+.tarjeta p {
+  margin: 4px 0;
+}
+
+.insignia {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 8px;
+  border: 1px solid #d97706;
+  border-radius: 999px;
+  background-color: #fef3c7;
+  color: #92400e;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
+
+.simbolo {
+  color: #52606d;
+}
+
+.precio {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1e3a5f;
+}
+
+/* La variacion se entiende por la flecha y el texto "Subió"/"Bajó", el color es un extra */
+.variacion.sube {
+  color: #15803d;
+}
+
+.variacion.baja {
+  color: #b91c1c;
+}
+
+.aclaracion {
+  font-size: 0.85rem;
+  color: #52606d;
+}
+
+.tarjeta-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+/* Enlace con aspecto de boton (se usa para navegar al detalle) */
+.enlace-boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 2px solid #1d4ed8;
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.enlace-boton:hover {
+  background-color: #eff6ff;
+  text-decoration: underline;
+}
+
+.boton-favorito {
+  border: 2px solid #1e3a5f;
+  background-color: #ffffff;
+  color: #1e3a5f;
+}
+
+.boton-favorito:hover {
+  background-color: #f0f3f6;
+}
+
+.boton-favorito[aria-pressed="true"] {
+  border-color: #d97706;
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* ===== Pagina de detalle ===== */
+
+.volver {
+  margin: 0 0 16px;
+}
+
+.detalle-acciones {
+  margin-bottom: 16px;
+}
+
+.datos-detalle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 16px 0 0;
+}
+
+.datos-detalle div {
+  border: 1px solid #cbd2d9;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #fafbfc;
+}
+
+.datos-detalle dt {
+  font-size: 0.9rem;
+  color: #52606d;
+}
+
+.datos-detalle dd {
+  margin: 4px 0 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1e3a5f;
+  overflow-wrap: anywhere;
+}
+
+.lista-enlaces li {
+  margin-bottom: 4px;
+}
+
+/* ===== Pie ===== */
+
+.pie {
+  text-align: center;
+  padding: 16px;
+  font-size: 0.9rem;
+  color: #52606d;
+}
+
+.pie p {
+  margin: 4px 0;
+}
+
+/* ===== Vista de escritorio ===== */
+
+@media (min-width: 768px) {
+  .formulario {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .campo {
+    flex: 1;
+  }
+
+  /* Alinea el boton con los campos (altura de la etiqueta + separacion) */
+  .formulario button {
+    width: auto;
+    margin-top: 28px;
+  }
+
+  .boton-reintentar,
+  .detalle-acciones .boton-favorito {
+    width: auto;
+  }
+
+  .tarjetas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .datos-detalle {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
