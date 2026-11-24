@@ -31,7 +31,7 @@ export function App() {
         <p>
           Fuente de los datos: API pública de <a href="https://www.coingecko.com/">CoinGecko</a>.
         </p>
-        <p>Actividad 3 - Programación Web</p>
+        <p>Actividad 4 - Programación Web</p>
       </footer>
     </>
   );
